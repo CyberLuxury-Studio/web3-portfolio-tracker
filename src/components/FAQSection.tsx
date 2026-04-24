@@ -1,24 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
     question: "What is this platform?",
-    answer: "It is an advanced cyberpunk-styled solution designed for modern web applications and futuristic interfaces."
+    answer: "An institutional-grade DeFi terminal engineered for real-time portfolio telemetry and deep on-chain analytics."
   },
   {
     question: "How do I get started?",
-    answer: "Simply initialize your terminal and install the dependencies as listed in the documentation."
+    answer: "Initialize your sequence by connecting your Web3 wallet. Our protocol will automatically index your holdings."
   },
   {
     question: "Is there a free tier available?",
-    answer: "Yes, we offer an Indie tier that provides basic access to core features without any cost."
+    answer: "Yes, the Retail Node provides basic access to delayed market data and limited wallet tracking without any cost."
   },
   {
-    question: "Can I customize the design system?",
-    answer: "Absolutely. The styling is powered by Tailwind CSS v4 variables, allowing for rapid customization."
+    question: "How secure is the protocol?",
+    answer: "We utilize encrypted data packets and zero-knowledge proofs to ensure your portfolio telemetry remains private and secure."
   }
 ];
 
@@ -26,32 +27,51 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 max-w-4xl mx-auto">
-      <h2 className="text-4xl md:text-5xl font-black mb-16 text-center text-white tracking-tighter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+    <section className="py-32 px-6 max-w-4xl mx-auto bg-[#050505]">
+      <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-16 text-center text-white font-['Space_Grotesk']">
         Frequently Asked Questions
       </h2>
 
       <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div 
-            key={index}
-            className="bg-[#0f0f0f] border border-gray-800 overflow-hidden cursor-pointer hover:border-cyan-500/50 transition-colors"
-            onClick={() => setOpenIndex(openIndex === index ? null : index)}
-          >
-            <div className="p-6 flex justify-between items-center">
-              <h3 className="text-lg font-bold text-white">{faq.question}</h3>
-              <ChevronDown 
-                className={`text-cyan-400 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} 
-              />
-            </div>
-            
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
             <div 
-              className={`px-6 pb-6 text-gray-400 transition-all duration-300 ${openIndex === index ? 'block opacity-100' : 'hidden opacity-0'}`}
+              key={index}
+              className="bg-[#0a0a0a]/60 backdrop-blur-md border border-white/5 overflow-hidden cursor-pointer hover:border-[#00FFFF]/50 transition-colors"
+              onClick={() => setOpenIndex(isOpen ? null : index)}
             >
-              {faq.answer}
+              <div className="p-6 flex justify-between items-center">
+                <h3 className="text-lg font-mono text-white tracking-wide">{faq.question}</h3>
+                <motion.div
+                   animate={{ rotate: isOpen ? 180 : 0 }}
+                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <ChevronDown className="text-[#00FFFF]" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  >
+                    <div className="px-6 pb-6 text-white/60 font-mono text-sm leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
