@@ -1,20 +1,22 @@
-import React from 'react';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import Pricing from '@/components/Pricing';
 import Footer from '@/components/Footer';
-import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 
+import dynamic from 'next/dynamic';
+const AssetAllocationMatrix = dynamic(() => import('@/components/AssetAllocationMatrix'), { ssr: false });
+const LiveMarquee = dynamic(() => import('@/components/LiveMarquee'), { ssr: false });
+const Hero = dynamic(() => import('@/components/Hero'), { ssr: false });
+const Pricing = dynamic(() => import('@/components/Pricing'), { ssr: false });
+const FAQSection = dynamic(() => import('@/components/FAQSection'), { ssr: false });
 
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505] text-[#e5e2e1] font-['Inter'] selection:bg-[#00FF41] selection:text-black">
       <Navbar />
+      <LiveMarquee />
       <Hero />
-      <Features />
+      <AssetAllocationMatrix />
       <Pricing />
       <FAQSection />
       <CTASection />
