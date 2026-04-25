@@ -17,7 +17,7 @@ const holdings = [
   { asset: 'USDC', balance: '42,100', value: 42100.00, pnl: '0.0%' },
 ];
 
-const ScrambleText = ({ text }: { text: string }) => {
+const ScrambleText = React.memo(({ text }: { text: string }) => {
   const [display, setDisplay] = useState(text.replace(/[0-9]/g, '0'));
 
   useEffect(() => {
@@ -37,7 +37,8 @@ const ScrambleText = ({ text }: { text: string }) => {
   }, [text]);
 
   return <span>{display}</span>;
-};
+});
+ScrambleText.displayName = 'ScrambleText';
 
 
 export default function AssetAllocationMatrix() {
@@ -69,7 +70,7 @@ export default function AssetAllocationMatrix() {
              <h3 className="text-white/60 font-mono text-sm tracking-widest uppercase mb-4 self-start">Portfolio Distribution</h3>
              {isMounted && (
                <div className="w-full h-[300px]">
-                 <ResponsiveContainer width="100%" height="100%">
+                 <ResponsiveContainer width="100%" height="100%" debounce={50}>
                     <PieChart>
                       <Pie
                         data={data}
