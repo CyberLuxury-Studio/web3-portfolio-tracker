@@ -20,7 +20,7 @@ export default function LiveMarquee() {
   return (
     <div className="w-full bg-[#050505] border-b border-white/10 overflow-hidden py-2 font-mono text-xs flex">
       <motion.div
-        className="flex whitespace-nowrap"
+        className="flex whitespace-nowrap" style={{ willChange: "transform" }}
         animate={{ x: ["0%", "-50%"] }}
         transition={{
           ease: "linear",
